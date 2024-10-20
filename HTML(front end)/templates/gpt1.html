@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Interface</title>
+    <style>
+        body {
+    background-image: url("https://kidshelpline.com.au/sites/default/files/OGAIBB_TEEN_THUMBNAIL.png");
+    background-size: cover;
+    font-family: Arial, sans-serif;
+         }
+
+        
+        .container {
+    	width: 400px;
+    	margin: 50px auto;
+    	background-color: #663399;
+    	padding: 20px;
+    	border-radius: 5px;
+    	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.container textarea {
+   	width: 100%;
+   	height: 100px;
+   	resize: none;
+    	border: 1px solid #ccc;
+    	border-radius: 3px;
+    	padding: 5px;
+	background-color: #f2f2f2; /* New background color */
+	}
+
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 5px;
+        }
+        p{
+            color:#ffffff;
+            font-family: calibri;
+            font-size: 120%;
+        }
+        
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            background-color: #007bff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button[type="reset"] {
+            margin-left: 10px;
+            background-color: #dc3545;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function sendText() {
+            var xhr = new XMLHttpRequest();
+            var form = document.getElementById("classifyForm");
+            xhr.open("POST", "/classify", true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.result === "Message Sent") {
+                        window.location.href = "/end?text=" + encodeURIComponent(response.text);
+                    } else {
+                        alert(response.result);
+                    }
+                    document.getElementById("text").style.borderColor = "";
+                    form.reset();
+                }
+            };
+            xhr.send("text=" + encodeURIComponent(document.getElementById("text").value));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><p>Message Interface</p></h1>
+        </div>
+        <form id="classifyForm" onsubmit="event.preventDefault(); sendText();">
+            <textarea id="text" name="text" rows="4" cols="50" placeholder="Enter text"></textarea>
+            <div>
+                <button type="submit">Send</button>
+                <button type="reset">Clear</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
