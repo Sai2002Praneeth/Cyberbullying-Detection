@@ -9,7 +9,6 @@ This project focuses on detecting and blocking bullying content in social media 
 3) Installation
 4) Usage
 5) Model and Approach
-6) License
 
 # Overview
 
